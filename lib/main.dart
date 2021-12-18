@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+// https://zenn.dev/kazutxt/books/flutter_practice_introduction/viewer/beginner_package
 
 void main() {
   runApp(const MyApp());
@@ -49,16 +52,29 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  String _type = "偶数";
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  // void _incrementCounter() {
+  //   setState(() {
+  //     // This call to setState tells the Flutter framework that something has
+  //     // changed in this State, which causes it to rerun the build method below
+  //     // so that the display can reflect the updated values. If we changed
+  //     // _counter without calling setState(), then the build method would not be
+  //     // called again, and so nothing would appear to happen.
+  //     _counter++;
+  //     if (_counter % 2 == 0) {
+  //       _type = "偶数";
+  //     } else {
+  //       _type = "奇数";
+  //     }
+  //   });
+  // }
+
+  _incrementCounter() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int counter = (prefs.getInt('counter') ?? 0) + 1;
+    print('Pressed $_counter times.');
+    await prefs.setInt('counter', _counter);
   }
 
   @override
@@ -74,6 +90,11 @@ class _MyHomePageState extends State<MyHomePage> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
+      ),
+      drawer: Drawer(
+        child: Center(
+          child: Text("Drawer"),
+        ),
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
@@ -102,7 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
-            Text('aaa'),
+            Text('$_type'),
             TextButton(
               onPressed: () => {print("pressed Button")},
               child: Text("更新"),
