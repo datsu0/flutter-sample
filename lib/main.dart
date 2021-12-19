@@ -1,5 +1,9 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:helloworld/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:helloworld/navigation.dart';
 
 // https://zenn.dev/kazutxt/books/flutter_practice_introduction/viewer/beginner_package
 
@@ -50,32 +54,40 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+class _NavigationPageState extends State<MyHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(body: TestPage1());
+  }
+}
+
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   String _type = "偶数";
+  bool _isShow = loadFlag();
 
-  // void _incrementCounter() {
-  //   setState(() {
-  //     // This call to setState tells the Flutter framework that something has
-  //     // changed in this State, which causes it to rerun the build method below
-  //     // so that the display can reflect the updated values. If we changed
-  //     // _counter without calling setState(), then the build method would not be
-  //     // called again, and so nothing would appear to happen.
-  //     _counter++;
-  //     if (_counter % 2 == 0) {
-  //       _type = "偶数";
-  //     } else {
-  //       _type = "奇数";
-  //     }
-  //   });
-  // }
-
-  _incrementCounter() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    int counter = (prefs.getInt('counter') ?? 0) + 1;
-    print('Pressed $_counter times.');
-    await prefs.setInt('counter', _counter);
+  void _incrementCounter() {
+    setState(() {
+      // This call to setState tells the Flutter framework that something has
+      // changed in this State, which causes it to rerun the build method below
+      // so that the display can reflect the updated values. If we changed
+      // _counter without calling setState(), then the build method would not be
+      // called again, and so nothing would appear to happen.
+      _counter++;
+      if (_counter % 2 == 0) {
+        _type = "偶数";
+      } else {
+        _type = "奇数";
+      }
+    });
   }
+
+  // _incrementCounter() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   int counter = (prefs.getInt('counter') ?? 0) + 1;
+  //   print('Pressed $_counter times.');
+  //   await prefs.setInt('counter', _counter);
+  // }
 
   @override
   Widget build(BuildContext context) {
