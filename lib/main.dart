@@ -51,7 +51,7 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _NavigationPageState();
 }
 
 class _NavigationPageState extends State<MyHomePage> {
@@ -64,7 +64,6 @@ class _NavigationPageState extends State<MyHomePage> {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   String _type = "偶数";
-  bool _isShow = loadFlag();
 
   void _incrementCounter() {
     setState(() {
